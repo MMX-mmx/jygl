@@ -12,6 +12,8 @@
         <i class="el-icon-s-home"></i>
         <span slot="title">首页</span>
       </el-menu-item>
+      <el-submenu index="1">
+      <template slot="title"><i class="el-icon-message"></i>分支</template>
       <el-menu-item index="/member">
         <i class="el-icon-user-solid"></i>
         <span slot="title">会员管理</span>
@@ -28,6 +30,11 @@
         <i class="el-icon-user"></i>
         <span slot="title">员工管理</span>
       </el-menu-item>
+      <el-menu-item index="/user">
+        <i class="el-icon-user"></i>
+        <span slot="title">用户列表</span>
+      </el-menu-item>
+      </el-submenu>
     </el-menu>
   </div>
 </template>
@@ -46,5 +53,6 @@ export default {
 <style scoped>
 .el-menu{
   border-right: 0;
+  height: 110%;
 }
 </style> 
