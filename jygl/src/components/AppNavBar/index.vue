@@ -34,6 +34,10 @@
         <i class="el-icon-user"></i>
         <span slot="title">用户列表</span>
       </el-menu-item>
+       <el-menu-item index="/student">
+        <i class="el-icon-user"></i>
+        <span slot="title">学员管理</span>
+      </el-menu-item>
       </el-submenu>
     </el-menu>
   </div>

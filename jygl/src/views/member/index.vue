@@ -1,5 +1,36 @@
 <template>
   <div class="member">
+    <!-- 查询 -->
+    <el-form :inline="true" :model="searchMap" ref="ruleForm" class="demo-form-inline">
+      <el-form-item prop="cardNum">
+        <el-input v-model="searchMap.cardNum" placeholder="会员卡号" style="width:195px"></el-input>
+      </el-form-item>
+      <el-form-item prop="name">
+        <el-input v-model="searchMap.name" placeholder="会员名字" style="width:195px"></el-input>
+      </el-form-item>
+      <el-form-item prop="payType">
+        <el-select v-model="searchMap.payType" placeholder="支付类型" style="width:110px">
+          <el-option
+            v-for="(item,index) in payTypeValue"
+            :key="index"
+            :label="item.name"
+            :value="item.type"
+          ></el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item prop="birthday">
+        <el-date-picker
+          value-format="yyyy-MM-dd"
+          v-model="searchMap.birthday"
+          type="date"
+          placeholder="出生日期"
+        ></el-date-picker>
+      </el-form-item>
+      <el-form-item>
+        <el-button type="primary" @click="onSubmit">查询</el-button>
+        <el-button @click="resetForm('ruleForm')">重置</el-button>
+      </el-form-item>
+    </el-form>
     <!--列表-->
     <el-table :data="list" height="380" border style="width: 100%">
       <el-table-column type="index" label="序号" width="100"></el-table-column>
@@ -59,10 +90,17 @@ export default {
   name: "",
   data() {
     return {
+      searchMap: {
+        cardNum : "",
+        name : "",
+        payType : "",
+        birthday : ""
+      },
       list: [],
-      currentPage: 1,
-      pageSize: 10,
-      total: 0
+       currentPage: 1,
+      pageSize : 10,
+      total : 0,
+      payTypeValue : payType
     };
   },
   components: {},
@@ -75,10 +113,18 @@ export default {
     }
   },
   methods: {
+    //重置表单
+    resetForm(formName){
+        this.$refs[formName].resetFields();
+    },
+    //提交表单
+    onsubmit(){
+        this.fetchData();
+    },
     //编辑
-    handleEdit() {},
+    handleEdit(){},
     //删除
-    handleDelete() {},
+    handleDelete(){},
     //条数改变时触发
     handleSizeChange(cSize) {
       console.log("条数");
@@ -94,7 +140,7 @@ export default {
     //初始化数据
     fetchData() {
       //请求会员列表的数据
-      MemberApi.getMemberListPage(this.currentPage, this.pageSize)
+      MemberApi.getMemberListPage(this.currentPage, this.pageSize,this.searchMap)
         .then(res => {
           console.log(res);
           //   console.log(res);
@@ -117,6 +163,9 @@ export default {
 <style scoped>
 .member {
   margin-top: 20px;
+}
+.el-pagination{
+    margin-top: 20px;
 }
 .b {
   position: relative;

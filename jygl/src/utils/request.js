@@ -51,9 +51,9 @@ request.interceptors.request.use(function (config) {
   //进行loading加载
   loading.open();
 
-  const token = localStorage.getItem("yy_token") ? localStorage.getItem("yy_token") : "";
+  const token = localStorage.getItem("mx_token") ? localStorage.getItem("mx_token") : "";
   //发送token
-  config.headers.Authorization = token;
+  config.headers.Authorization ="Bearer " + token;
   console.log("请求拦截")
   // 在发送请求之前做些什么
   return config;

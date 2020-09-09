@@ -3,11 +3,11 @@
     <div class="login-form">
       <h1>积云会员管理系统</h1>
       <el-form ref="form" :rules="rules" :model="form" label-width="80px">
-        <el-form-item label="账号" prop="name">
-          <el-input v-model="form.name" placeholder="请输入账号" class="n"></el-input>
+        <el-form-item label="账号" prop="mobile">
+          <el-input v-model="form.mobile" placeholder="请输入账号" class="n"></el-input>
         </el-form-item>
-        <el-form-item label="密码" prop="pass">
-          <el-input type="password" v-model="form.pass" placeholder="请输入密码" class="p"></el-input>
+        <el-form-item label="密码" prop="password">
+          <el-input type="password" v-model="form.password" placeholder="请输入密码" class="p"></el-input>
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="submitForm('form')" class="b">登录</el-button>
@@ -24,8 +24,8 @@ export default {
   data() {
     return {
       form: {
-        name: "",
-        pass: ""
+        mobile: "",
+        password: ""
       },
       rules: {
         name: [
@@ -45,22 +45,21 @@ export default {
         console.log(valid);
         if (valid) {
           //调用登录接口
-          loginApi
-            .login(this.form.name, this.form.pass)
-            .then(res => {
+          loginApi.wxLogin(this.form).then(res=>{
               console.log(res);
-              const code = res.data.data.code;
+              const code = res.data.code;
               if (code == 200) {
                 //获取token
-                const token = res.data.data.data.token;
+                const token = res.data.data.remember_token;
                 //吧token存储到本地
                 localStorage.setItem("mx_token", token);
                 //获取用户信息
-                loginApi.getUserInfo().then(res => {
-                  const resp = res.data.data;
+                loginApi.wxInfo().then(res=>{
+                   console.log(res)
+                   const resp = res.data;
                   if (resp.code == 200) {
                     //将获取到的用户信息保存到本地
-                    localStorage.setItem("mx_info", JSON.stringify(resp.data));
+                    localStorage.setItem("mx_info",JSON.stringify(resp.rows));
                     //跳转到首页
                     this.$router.push({ path: "/" });
                   } else {

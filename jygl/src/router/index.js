@@ -77,7 +77,15 @@ const routes = [
           title: "用户列表"
         },
         component: () => import(/* webpackChunkName: "about" */ '@/views/user/index.vue'),
-      }
+      },
+      {
+        path: "/student",
+        name: "student",
+        meta: {
+          title: "学员管理"
+        },
+        component: () => import(/* webpackChunkName: "about" */ '@/views/student/index.vue'),
+      },
     ]
   },
 ]
